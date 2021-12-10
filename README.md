@@ -9,7 +9,7 @@ jobs:
   tag:
     steps:
       - name: Create git tag
-        uses: Digital-Udvikling/actions-calver@v0.1.0
+        uses: Digital-Udvikling/actions-calver@v0.1.1
 ```
 
 ### Output

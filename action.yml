@@ -1,4 +1,4 @@
-name: 'CalVer'
+name: 'CalVer tag'
 description: 'Tag a commit with a CalVer version number in the format [YYYY.MM.DD-MICRO]'
 author: 'Digital Udvikling'
 outputs:

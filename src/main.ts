@@ -1,16 +1,26 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {buildDatePart, buildTag, nextAvailableMicro} from './tag'
+import {createTag, listTags} from './github'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const sha = process.env.GITHUB_SHA
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    if (!sha) {
+      core.setFailed('Missing commit_sha or GITHUB_SHA.')
+      return
+    }
 
-    core.setOutput('time', new Date().toTimeString())
+    const date = new Date()
+    const datePart = buildDatePart(date)
+
+    const existingTags = await listTags()
+    const newMicro = nextAvailableMicro(datePart, existingTags)
+
+    const tag = buildTag(date, newMicro)
+
+    await createTag(tag, sha)
+    core.setOutput('tag', tag)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

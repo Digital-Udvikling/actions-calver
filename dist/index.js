@@ -53,7 +53,7 @@ function getOctokitSingleton() {
 function listTags(fetchedTags = [], page = 1) {
     return __awaiter(this, void 0, void 0, function* () {
         const octokit = getOctokitSingleton();
-        core.info(`Fetching tags (page: ${page})...`);
+        core.debug(`Fetching tags (page: ${page})...`);
         const tags = yield octokit.rest.repos.listTags(Object.assign(Object.assign({}, github_1.context.repo), { per_page: 100, page }));
         if (tags.data.length < 100) {
             return [...fetchedTags, ...tags.data];
@@ -124,6 +124,7 @@ function run() {
             const existingTags = yield (0, github_1.listTags)();
             const newMicro = (0, tag_1.nextAvailableMicro)(datePart, existingTags);
             const tag = (0, tag_1.buildTag)(date, newMicro);
+            core.info(`Creating tag ${tag} for commit ${sha}`);
             yield (0, github_1.createTag)(tag, sha);
             core.setOutput('tag', tag);
         }

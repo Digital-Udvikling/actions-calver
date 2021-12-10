@@ -11,7 +11,7 @@ jobs:
       contents: write
     steps:
       - name: Create git tag
-        uses: Digital-Udvikling/actions-calver@v0.1.2
+        uses: Digital-Udvikling/actions-calver@v0.1.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

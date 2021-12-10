@@ -1,6 +1,9 @@
 name: 'CalVer tag'
 description: 'Tag a commit with a CalVer version number in the format [YYYY.MM.DD-MICRO]'
 author: 'Digital Udvikling'
+branding:
+  icon: tag
+  color: blue
 outputs:
   tag:
     description: 'The generated tag'

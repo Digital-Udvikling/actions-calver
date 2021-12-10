@@ -2,6 +2,16 @@
 
 Generates and a tags the current commit with a [CalVer](https://calver.org/) tag based on the format [YYYY.0M.0D-MICRO]
 
+example usage:
+
+```yaml
+jobs:
+  tag:
+    steps:
+      - name: Create git tag
+        uses: Digital-Udvikling/actions-calver@v0.1.0
+```
+
 ### Output
 * **tag**: The generated CalVer tag
 

@@ -4,6 +4,10 @@ author: 'Digital Udvikling'
 branding:
   icon: tag
   color: blue
+inputs:
+  github_token:
+    required: true
+    description: 'GitHub token with repo write scope'
 outputs:
   tag:
     description: 'The generated tag'

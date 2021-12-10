@@ -21,7 +21,7 @@ export async function listTags(
   page = 1
 ): Promise<ITags> {
   const octokit = getOctokitSingleton()
-  core.info(`Fetching tags (page: ${page})...`)
+  core.debug(`Fetching tags (page: ${page})...`)
   const tags = await octokit.rest.repos.listTags({
     ...context.repo,
     per_page: 100,

@@ -19,6 +19,8 @@ async function run(): Promise<void> {
 
     const tag = buildTag(date, newMicro)
 
+    core.info(`Creating tag ${tag} for commit ${sha}`)
+
     await createTag(tag, sha)
     core.setOutput('tag', tag)
   } catch (error) {

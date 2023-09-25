@@ -1,14 +1,13 @@
 import {buildDatePart, nextAvailableMicro, buildTag} from '../src/tag'
 import {expect, test} from '@jest/globals'
-import {ITag} from "../src/types";
-
+import {ITag} from '../src/types'
 
 function buildTagObj(name: string): ITag {
   return {
     name,
     commit: {
       sha: '',
-      url: '',
+      url: ''
     },
     zipball_url: '',
     tarball_url: '',
@@ -25,12 +24,21 @@ test('get nextAvailableMicro with no tags', () => {
 })
 
 test('get nextAvailableMicro with no matching tags', () => {
-  expect(nextAvailableMicro('1970.01.02', [buildTagObj('1970.01.01-01')])).toEqual(1)
+  expect(
+    nextAvailableMicro('1970.01.02', [buildTagObj('1970.01.01-01')])
+  ).toEqual(1)
 })
 
 test('get nextAvailableMicro with matching tags', () => {
-  expect(nextAvailableMicro('1970.01.01', [buildTagObj('1970.01.01-01')])).toEqual(2)
-  expect(nextAvailableMicro('1970.01.01', [buildTagObj('1970.01.01-01'), buildTagObj('1970.01.01-02')])).toEqual(3)
+  expect(
+    nextAvailableMicro('1970.01.01', [buildTagObj('1970.01.01-01')])
+  ).toEqual(2)
+  expect(
+    nextAvailableMicro('1970.01.01', [
+      buildTagObj('1970.01.01-01'),
+      buildTagObj('1970.01.01-02')
+    ])
+  ).toEqual(3)
 })
 
 test('Build new tag', () => {

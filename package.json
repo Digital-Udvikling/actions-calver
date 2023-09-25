@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.1.3",
+  "name": "action-calver",
+  "version": "0.3.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "A github action to generate a calver version number based on the date.",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/Digital-Udvikling/action-calver.git"
   },
   "keywords": [
     "actions",
@@ -25,14 +25,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "1.6.0",
-    "@actions/github": "5.0.0",
-    "date-fns": "2.28.0"
+    "@actions/core": "1.10.1",
+    "@actions/github": "5.1.1",
+    "date-fns": "2.30.0"
   },
   "devDependencies": {
-    "@types/node": "16.11.24",
+    "@types/node": "20.6.5",
     "@typescript-eslint/parser": "5.11.0",
-    "@vercel/ncc": "0.33.1",
+    "@vercel/ncc": "0.38.0",
     "eslint": "8.8.0",
     "eslint-plugin-github": "4.3.5",
     "eslint-plugin-jest": "26.1.0",

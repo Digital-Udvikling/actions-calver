@@ -1,6 +1,6 @@
 {
   "name": "action-calver",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "A github action to generate a calver version number based on the date.",
   "main": "lib/main.js",

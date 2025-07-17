@@ -119,13 +119,15 @@ function run() {
                 core.setFailed('Missing commit_sha or GITHUB_SHA.');
                 return;
             }
+            const prefix = core.getInput('prefix-tag');
             const date = new Date();
             const datePart = (0, tag_1.buildDatePart)(date);
             const existingTags = yield (0, github_1.listTags)();
-            const newMicro = (0, tag_1.nextAvailableMicro)(datePart, existingTags);
+            const newMicro = (0, tag_1.nextAvailableMicro)(datePart, existingTags, prefix);
             const tag = (0, tag_1.buildTag)(date, newMicro);
-            core.info(`Creating tag ${tag} for commit ${sha}`);
-            yield (0, github_1.createTag)(tag, sha);
+            const gitTag = prefix ? `${prefix}${tag}` : tag;
+            core.info(`Creating tag ${gitTag} for commit ${sha}`);
+            yield (0, github_1.createTag)(gitTag, sha);
             core.setOutput('tag', tag);
         }
         catch (error) {
@@ -151,13 +153,19 @@ function buildDatePart(date) {
     return (0, date_fns_1.format)(date, 'yyyy.MM.dd');
 }
 exports.buildDatePart = buildDatePart;
-function nextAvailableMicro(datePart, existingTags) {
+function nextAvailableMicro(datePart, existingTags, prefix) {
+    const datePattern = /^\d{4}\.\d{2}\.\d{2}-\d+$/;
+    const prefixedDatePattern = new RegExp(`^${prefix ? prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : ''}\\d{4}\\.\\d{2}\\.\\d{2}-\\d+$`);
+    const pattern = prefix ? prefixedDatePattern : datePattern;
+    const searchPrefix = prefix ? `${prefix}${datePart}` : datePart;
     const maxExistingMicro = Math.max(0, ...existingTags
-        .filter(tag => /^\d{4}\.\d{2}\.\d{2}-\d+$/.test(tag.name))
-        .filter(tag => tag.name.startsWith(datePart))
+        .filter(tag => pattern.test(tag.name))
+        .filter(tag => tag.name.startsWith(searchPrefix))
         .map(tag => {
         try {
-            return parseInt(tag.name.split('-')[1], 10);
+            // Remove prefix if present before parsing
+            const cleanTag = prefix ? tag.name.replace(prefix, '') : tag.name;
+            return parseInt(cleanTag.split('-')[1], 10);
         }
         catch (e) {
             return -1;

@@ -7,16 +7,29 @@ export function buildDatePart(date: Date): string {
 
 export function nextAvailableMicro(
   datePart: string,
-  existingTags: ITags
+  existingTags: ITags,
+  prefix?: string
 ): number {
+  const datePattern = /^\d{4}\.\d{2}\.\d{2}-\d+$/
+  const prefixedDatePattern = new RegExp(
+    `^${
+      prefix ? prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') : ''
+    }\\d{4}\\.\\d{2}\\.\\d{2}-\\d+$`
+  )
+
+  const pattern = prefix ? prefixedDatePattern : datePattern
+  const searchPrefix = prefix ? `${prefix}${datePart}` : datePart
+
   const maxExistingMicro = Math.max(
     0,
     ...existingTags
-      .filter(tag => /^\d{4}\.\d{2}\.\d{2}-\d+$/.test(tag.name))
-      .filter(tag => tag.name.startsWith(datePart))
+      .filter(tag => pattern.test(tag.name))
+      .filter(tag => tag.name.startsWith(searchPrefix))
       .map(tag => {
         try {
-          return parseInt(tag.name.split('-')[1], 10)
+          // Remove prefix if present before parsing
+          const cleanTag = prefix ? tag.name.replace(prefix, '') : tag.name
+          return parseInt(cleanTag.split('-')[1], 10)
         } catch (e) {
           return -1
         }

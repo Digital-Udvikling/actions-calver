@@ -11,17 +11,19 @@ async function run(): Promise<void> {
       return
     }
 
+    const prefix = core.getInput('prefix-tag')
     const date = new Date()
     const datePart = buildDatePart(date)
 
     const existingTags = await listTags()
-    const newMicro = nextAvailableMicro(datePart, existingTags)
+    const newMicro = nextAvailableMicro(datePart, existingTags, prefix)
 
     const tag = buildTag(date, newMicro)
+    const gitTag = prefix ? `${prefix}${tag}` : tag
 
-    core.info(`Creating tag ${tag} for commit ${sha}`)
+    core.info(`Creating tag ${gitTag} for commit ${sha}`)
 
-    await createTag(tag, sha)
+    await createTag(gitTag, sha)
     core.setOutput('tag', tag)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

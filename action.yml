@@ -8,6 +8,9 @@ inputs:
   github_token:
     required: true
     description: 'GitHub token with repo write scope'
+  prefix-tag:
+    required: false
+    description: 'Prefix to add to the git tag (not included in output)'
 outputs:
   tag:
     description: 'The generated tag'

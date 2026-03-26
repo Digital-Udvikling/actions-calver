@@ -195,7 +195,7 @@ function nextAvailableMicro(datePart, existingTags, prefix) {
             const cleanTag = prefix ? tag.name.replace(prefix, '') : tag.name;
             return parseInt(cleanTag.split('-')[1], 10);
         }
-        catch (e) {
+        catch (_a) {
             return -1;
         }
     }));

@@ -15,5 +15,5 @@ outputs:
   tag:
     description: 'The generated tag'
 runs:
-  using: 'node20'
+  using: 'node24'
   main: 'dist/index.js'
